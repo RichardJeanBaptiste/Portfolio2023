@@ -4,6 +4,7 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 
 /**
+ * https://coolors.co/d14081-ef798a-f7f6b6-0d27e7-5bc0eb
  * https://mattfarley.ca/
  * TODO List
  * header - hamburger menu
