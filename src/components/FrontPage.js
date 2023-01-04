@@ -1,16 +1,17 @@
 import '../App.css';
 import { useState } from 'react';
-import { FaBars } from 'react-icons/fa';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Stack from '@mui/material/Stack';
 import Avatar from '@mui/material/Avatar';
-import IconButton from '@mui/material/IconButton';
+import Link from '@mui/material/Link';
 import Grow from '@mui/material/Grow';
+import Hamburger from 'hamburger-react';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import BlackAvatar from '../assets/black-avatar-3025348_1280.png';
 import WorkSpace1 from '../assets/hero-devices.svg';
 import WorkSpace2 from '../assets/workspace2.jpg';
+
 
 /**
  * Fun Features to eventually implement
@@ -35,8 +36,13 @@ import WorkSpace2 from '../assets/workspace2.jpg';
 const theme = createTheme({
     typography: {
         fontFamily: 'Andika, sans-serif',
+    },
+    Button: {
+        size:{xs: 10}
     }
 })
+
+
 
 
 export default function FrontPage() {
@@ -48,16 +54,25 @@ export default function FrontPage() {
         }, 
         menuBox: {
             position: 'absolute',
-            right: '2.5%',
+            right: '0.8%',
             top: '2%',
+            width: '20em',
         },
         menuBtns: {
             display: 'flex',
             flexDirection: 'row',
-            color: '#0D27E7',
-            //color: '#5BE9B9',
-            float: 'right',
-            fontSize: '25px',
+            justifyContent: 'right',
+            fontSize: '20px',
+        },
+        menuBtns2: {
+            display: 'flex',
+            flexDirection: 'row',
+            marginTop: { xs: '3.5%'},
+            marginLeft: '-20%',
+            paddingRight: '3%',
+        },
+        linkStyle: {
+            fontSize: {xs: '15px'},
         },
         titleStack: {
             display:'flex',
@@ -65,9 +80,23 @@ export default function FrontPage() {
             justifyContent: 'center',
             width: '100%',
             height: '140%',
+            marginTop: '-8em'
+        },
+        title1: {
+            paddingBottom: '1%',
+            fontSize: {xs:'1.5rem', lg: '3rem'}
+        },
+        title2: {
+            paddingBottom: {xs: '10%'},
+            fontSize: {xs: '1.3rem', lg: '2rem'}
+        },
+        avatar: {
+            width: {xs: 120 , lg: 200},
+            height: {xs: 120, lg: 200}
         }
     }
 
+    //const [isOpen, setOpen] = useState(false);
     const [ checked, setChecked ] = useState(false);
     
     const handleChange = () => {
@@ -81,34 +110,38 @@ export default function FrontPage() {
 
                 <Box sx={styles.menuBox}>
                     <Box sx={styles.menuBtns}>
-
-                        <Grow
-                            in={checked}
-                            style={{ transformOrigin: 'right' }}
-                            {...(checked ? { timeout: 1000 } : {})}
-                            >
-                            <p>ABCD</p>
-                        </Grow>
                         
-                        <Grow
-                            in={checked}
-                            style={{ transformOrigin: 'right' }}
-                            {...(checked ? { timeout: 2000 } : {})}
-                            >
-                            <p>EFGH</p>
-                        </Grow>
+                        <Box sx={styles.menuBtns2}>
+                            <Grow 
+                                in={checked}
+                                exit={true}
+                                style={{ transformOrigin: 'right', paddingRight: '12px' }}
+                                {...(checked ? { timeout: { enter: 1000, exit: 2000} } : {})}
+                                >
+                                <Link href='#' underline='hover' sx={styles.linkStyle}>About</Link>
+                            </Grow>
+                            
+                            <Grow
+                                in={checked}
+                                style={{ transformOrigin: 'right', paddingRight: '12px' }}
+                                {...(checked ? { timeout: 2000 } : {})}
+                                >
+                                <Link href='#' underline='hover'sx={styles.linkStyle}>Works</Link>
+                            </Grow>
 
-                        <Grow
-                            in={checked}
-                            style={{ transformOrigin: 'right' }}
-                            {...(checked ? { timeout: 3000 } : {})}
-                            >
-                            <p>IJKL</p>
-                        </Grow>
+                            <Grow
+                                in={checked}
+                                style={{ transformOrigin: 'right', paddingRight: '4px'}}
+                                {...(checked ? { timeout: 3000 } : {})}
+                                >
+                                <Link href='#' underline='hover'sx={styles.linkStyle}>Contact Me</Link>
+                            </Grow>
+                        </Box>
+                        
 
-                        <IconButton aria-label='Menu' onClick={handleChange} sx={{ color: '#0D27E7'}}>
-                            <FaBars/>
-                        </IconButton>
+                        <Hamburger rounded color='#0D27E7' size={20} direction='left' onToggle={toggled => {
+                            handleChange();
+                        }}/>
 
                     </Box>
                    
@@ -119,13 +152,14 @@ export default function FrontPage() {
                 
 
                 <Stack spacing={2} sx={styles.titleStack}>
-                    <Typography variant='h3' sx={{ paddingBottom: '1%', fontSize: '3rem'}}>Richard Jean-Baptiste</Typography>
-                    <Typography variant='h4' sx={{ paddingBottom: '5%', fontSize:'2rem'}}> Software Developer</Typography>
+                    <Typography variant='h3' sx={styles.title1}>Richard Jean-Baptiste</Typography>
+                    <Typography variant='h4' sx={styles.title2}> Software Developer</Typography>
                     <Box sx={{ borderRadius: '50%', backgroundColor: '#5BC0EB'}}>
-                        <Avatar alt='Richard Jean-Baptiste' src={BlackAvatar} sx={{ width: 200, height: 200, }}/>
+                        <Avatar alt='Richard Jean-Baptiste' src={BlackAvatar} sx={styles.avatar}/>
                     </Box>
 
-                    <img src={WorkSpace1} alt={WorkSpace2} width="860" height="400"/>
+                    <img src={WorkSpace1} alt={WorkSpace2} className="avatarImage"/>
+                    
                 </Stack>
             
                
@@ -134,29 +168,3 @@ export default function FrontPage() {
         
     )
 }
-
-/**
- * import { Grow, Transition } from '@material-ui/core';
-
-function Example() {
-  const [isVisible, setIsVisible] = useState(true);
-
-  const handleClick = () => {
-    setIsVisible(false);
-  };
-
-  return (
-    <Transition in={isVisible} timeout={300} unmountOnExit>
-      <Grow>
-        <div>
-          <p>This element will fade out when the button is clicked</p>
-          <button onClick={handleClick}>Click me</button>
-        </div>
-      </Grow>
-    </Transition>
-  );
-}
-
- * 
- * 
- */
